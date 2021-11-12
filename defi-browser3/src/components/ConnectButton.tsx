@@ -16,8 +16,6 @@ export default function ConnectButton() {
 
   const daiBalance = useTokenBalance(legos.erc20.dai.address, account);
 
-  const daiBalance = useTokenBalance(legos.erc20.dai.address, account)
-
   return account ? (
     <div>
       <p>
