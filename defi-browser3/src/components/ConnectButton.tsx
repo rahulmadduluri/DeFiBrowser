@@ -1,5 +1,6 @@
 // ConnectButton.tsx
 import { useEthers, useEtherBalance } from "@usedapp/core";
+import { formatEther } from "@ethersproject/units";
 
 export default function ConnectButton() {
   const {activateBrowserWallet, account } = useEthers();
@@ -13,7 +14,7 @@ export default function ConnectButton() {
   return account ? (
     <div>
       <p>
-      {etherBalance && JSON.stringify(etherBalance)} ETH
+      {etherBalance && parseFloat(formatEther(etherBalance)).toFixed(3)} ETH
       </p>
     </div>
   ) : (
