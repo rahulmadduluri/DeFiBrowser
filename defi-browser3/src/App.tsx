@@ -1,10 +1,11 @@
-import { useEthers, useEtherBalance, useTokenBalance } from "@usedapp/core";
+import { useEthers, useEtherBalance, useTokenBalance, useContractCall } from "@usedapp/core";
 import ConnectButton from "./components/ConnectButton";
 import { legos } from "@studydefi/money-legos";
 import uniswap from "@studydefi/money-legos/uniswap";
 import { Dai } from "@usedapp/core";
 import { useState, useEffect} from "react";
 import ContractCaller from "./components/ContractCaller";
+
 
 export default function App() {
 
@@ -19,8 +20,8 @@ export default function App() {
 
   }, [isDepositing, results]);
 
-  console.log(results);
-
+  console.log("IS DEPOSITING:" + isDepositing);
+  console.log("RESULTS: " + typeof results);
   return (
     <div>
       <div>

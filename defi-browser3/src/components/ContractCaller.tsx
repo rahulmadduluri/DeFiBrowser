@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContractCall } from "@usedapp/core";
 import { ethers } from 'ethers';
-import * as erc20_abi from "../abi/erc20.json";
+import erc20_abi from "../abi/erc20.json";
 
 type Props = {
     account: string | null | undefined
@@ -9,6 +9,7 @@ type Props = {
 }
 
 export default function ContractCaller(props: Props){
+
   // swap stablecoin for curve and then place yearn transaction
   const results = useContractCall({
     abi: new ethers.utils.Interface(erc20_abi),
@@ -17,8 +18,9 @@ export default function ContractCaller(props: Props){
     args: [props.account, 1],
   });
 
-  console.log(results);
-  if(results) props.setResults(results);
+  useEffect(() => {
+    if (results) props.setResults(results);
+  }, [results]);
 
   return null;
 }
