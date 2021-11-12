@@ -17,9 +17,9 @@ ReactDOM.render(
        Wrap our app in the provider, config is required, 
         but can be left as an empty object: 
     */}
-    <DAppProvider config={config}>
+    {/* <DAppProvider config={config}> */}
       <App />
-    </DAppProvider>
+    {/* </DAppProvider> */}
   </React.StrictMode>,
   document.getElementById("root")
 );

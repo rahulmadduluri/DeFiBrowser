@@ -231,6 +231,25 @@
       "payable": false,
       "stateMutability": "view",
       "type": "function"
-    }
+    }, 
+    {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "deposit",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
   ]
   
