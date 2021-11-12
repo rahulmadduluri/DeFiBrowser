@@ -12,7 +12,7 @@ export default function ConnectButton() {
   return account ? (
     <div>
       <p>
-        {etherBalance && etherBalance} ETH
+      {etherBalance && JSON.stringify(etherBalance)} ETH
       </p>
     </div>
   ) : (
