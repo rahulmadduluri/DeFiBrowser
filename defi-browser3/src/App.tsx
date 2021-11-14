@@ -1,7 +1,5 @@
-import { useEthers, useEtherBalance, useTokenBalance, useContractCall } from "@usedapp/core";
-import ConnectButton from "./components/ConnectButton";
+import SimpleStore from "./components/SimpleStore";
 import { legos } from "@studydefi/money-legos";
-import uniswap from "@studydefi/money-legos/uniswap";
 import { Dai } from "@usedapp/core";
 import { useState, useEffect} from "react";
 import ContractCaller from "./components/ContractCaller";
@@ -54,10 +52,10 @@ export default function App() {
       // console.log("TX Approve: " + JSON.stringify(txApprove));
 
       // Deposit dai into yearn - UNCOMMENT NEXT FOUR LINES TO DEPOSIT
-      // const yearnContract = new ethers.Contract("0xdA816459F1AB5631232FE5e97a05BBBb94970c95", erc20_abi, provider);
-      // const yearnContractWithSigner = yearnContract.connect(signer);
-      // const tx = await yearnContractWithSigner.deposit( ethers.utils.parseEther('10.0'))
-      // console.log("TX DEPOSIT: " + JSON.stringify(tx))
+      const yearnContract = new ethers.Contract("0xdA816459F1AB5631232FE5e97a05BBBb94970c95", erc20_abi, provider);
+      const yearnContractWithSigner = yearnContract.connect(signer);
+      const tx = await yearnContractWithSigner.deposit( ethers.utils.parseEther('10.0'))
+      console.log("TX DEPOSIT: " + JSON.stringify(tx))
 
     }
 
@@ -69,7 +67,7 @@ export default function App() {
   return (
     <div>
       <div>
-        {/* <ConnectButton /> */}
+        <SimpleStore />
         {/* {isDepositing && <ContractCaller account={account} setResults={setResults}/>} */}
         {/* <button onClick={() => setIsDepositing((oldIsDepositing) => !oldIsDepositing)}>Deposit</button> */}
       </div>
