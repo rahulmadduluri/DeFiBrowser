@@ -38,7 +38,9 @@ function App() {
       <div className="app-body-top">
         <h3>Make Up to 20% APY</h3>
         <Wallet/>
+        <br/>
         <Balances />
+        <br/>
       </div>
       <div className="app-body-mid">
         <YieldOptionsListView />

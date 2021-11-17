@@ -22,6 +22,7 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 
 export const Wallet: FC = () => {
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
+    // to use testnet, replace WalletAdapterNetwork.Devnet with http://127.0.0.1:8899
     const network = WalletAdapterNetwork.Devnet;
 
     // You can also provide a custom RPC endpoint
@@ -46,6 +47,7 @@ export const Wallet: FC = () => {
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>
                     <WalletMultiButton />
+                    <br/>
                     <WalletDisconnectButton />
                 </WalletModalProvider>
             </WalletProvider>
