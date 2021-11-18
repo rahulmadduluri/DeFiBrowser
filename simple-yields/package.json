@@ -2,12 +2,21 @@
   "name": "simple-yields",
   "private": true,
   "scripts": {
+    "clean": "shx rm -rf .next",
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn clean && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/runtime": "7.x",
+    "@project-serum/anchor": "^0.18.2",
+    "@solana/wallet-adapter-base": "^0.7.0",
+    "@solana/wallet-adapter-react": "^0.13.1",
+    "@solana/wallet-adapter-react-ui": "^0.6.1",
+    "@solana/wallet-adapter-wallets": "^0.11.3",
+    "@solana/web3.js": "^1.30.2",
     "next": "12.0.4",
     "react": "17.0.2",
     "react-dom": "17.0.2"
@@ -17,6 +26,7 @@
     "@types/react": "17.0.35",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
-    "typescript": "4.5.2"
+    "typescript": "4.5.2",
+    "shx": "^0.3.3"
   }
 }
