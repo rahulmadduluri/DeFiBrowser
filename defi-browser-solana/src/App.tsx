@@ -1,37 +1,25 @@
-import { Connection } from "@solana/web3.js";
-import React, { useEffect, useState, FC, useCallback } from "react";
-import { Balances } from "./components/Balances";
+import React, { FC, useMemo } from 'react';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import {
+    getLedgerWallet,
+    getPhantomWallet,
+    getSlopeWallet,
+    getSolflareWallet,
+    getSolletExtensionWallet,
+    getSolletWallet,
+    getTorusWallet,
+} from '@solana/wallet-adapter-wallets';
+import {
+    WalletModalProvider,
+    WalletDisconnectButton,
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+import { clusterApiUrl } from '@solana/web3.js';
+import { WalletBalanceProvider } from "./components/WalletBalanceProvider";
 import { YieldOptionsListView } from "./components/YieldOptionsListView";
-import { Wallet } from "./components/ConnectWallet";
-// import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
-// import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-// import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
-
 
 function App() {
-  // const [transactions, setTransactions] =
-  //   useState<Array<TransactionWithSignature>>();
-    
-  // const conn = React.useRef<Connection>();
-  // const wall = React.useRef<WalletAdapter>();
-
-  // useEffect(() => {
-  //   initWallet().then(([connection, wallet]: [Connection, WalletAdapter]) => {
-  //     conn.current = connection;
-  //     wall.current = wallet;
-  //     if (wallet.publicKey) {
-  //       getTransactions(connection, wallet.publicKey).then((trans) => {
-  //         setTransactions(trans);
-  //       });
-  //     }
-  //   });
-  // }, []);
-
-  // const didSendMoney = () => {
-  //   getTransactions(conn.current!, wall.current!.publicKey!).then((trans) => {
-  //     setTransactions(trans);
-  //   });
-  // };
 
   return (
     <div className="app-body">
