@@ -5,7 +5,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 
 import useWalletBalance from '../hooks/WalletBalanceProvider';
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-
+// import { YieldOptionsListView } from "../components/YieldOptionsListView";
 
 const Home = () => {
   const [balance] = useWalletBalance();
@@ -19,6 +19,8 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <h3>Make Up to 20% APY</h3>
+
       {wallet.connected &&
         <>
           <p>Balance: {(balance || 0).toLocaleString()} SOL</p>
@@ -27,19 +29,14 @@ const Home = () => {
 
       <div className="flex float-right space-x-5">
         <WalletMultiButton />
-        <WalletDisconnectButton />
       </div>
+
+      <div className="app-body-mid">
+        {/* <YieldOptionsListView /> */}
+      </div>
+
     </main>
   );
 };
 
-const renderCounter = ({ days, hours, minutes, seconds, completed }: any) => {
-  return (
-    <span>
-      {hours} hours, {minutes} minutes, {seconds} seconds
-    </span>
-  );
-};
-
 export default Home;
-
