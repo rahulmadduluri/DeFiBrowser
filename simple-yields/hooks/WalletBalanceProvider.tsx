@@ -5,9 +5,6 @@ import * as anchor from "@project-serum/anchor";
 
 const BalanceContext = createContext(null);
 
-// const rpcHost = process.env.NEXT_PUBLIC_SOLANA_RPC_HOST!;
-// const connection = new anchor.web3.Connection(rpcHost);
-
 export default function useWalletBalance() {
   const [balance, setBalance]: any = useContext(BalanceContext);
   return [balance, setBalance]
