@@ -10,14 +10,22 @@ import React, { FC, createContext, useContext, useEffect, useState } from 'react
 
 const DeFiOptionsContext = createContext(null);
 
+export interface DeFiOption {
+  name: string;
+  currentAPY: number;
+  deposit(): boolean;
+  getExistingDeposit(): number;
+}
+
 export default function useDeFiOptions() {
   const [defiOptions, setDefiOptions]: any = useContext(DeFiOptionsContext);
   return [defiOptions, setDefiOptions]
 }
 
 export const DeFiOptionsProvider: React.FC<{}> = ({ children }) => {
-    const { connection } = useConnection();
-    const wallet = useWallet();
+  const { connection } = useConnection();
+  const wallet = useWallet();
+  const [defiOptions, setDefiOptions] = useState([]);
     
     useEffect(() => {
         (async () => {
@@ -121,22 +129,22 @@ export const DeFiOptionsProvider: React.FC<{}> = ({ children }) => {
       
       
 //     return (
-//         <div className="flexbox-container">
-//             <div>
-//                 Total Deposits
-//                 <br/>
-//                 DEPOSIT_AMOUNT
-//             </div>
-//             <div>
-//                 APY
-//                 <br/>
-//                 APY_AMOUNT
-//             </div>
-//             <div>
-//                 <button /*onClick={onClick}*/ disabled={!publicKey}>
-//                     Deposit
-//                 </button>
-//             </div>
-//         </div>
+        // <div className="flexbox-container">
+        //     <div>
+        //         Total Deposits
+        //         <br/>
+        //         DEPOSIT_AMOUNT
+        //     </div>
+        //     <div>
+        //         APY
+        //         <br/>
+        //         APY_AMOUNT
+        //     </div>
+        //     <div>
+        //         <button /*onClick={onClick}*/ disabled={!publicKey}>
+        //             Deposit
+        //         </button>
+        //     </div>
+        // </div>
 //     );
 // };

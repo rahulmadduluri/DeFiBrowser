@@ -1,18 +1,49 @@
 import Head from 'next/head'
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-
+import { useTable } from "react-table";
 import useWalletBalance from '../hooks/WalletBalanceProvider';
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import useDeFiOptions, { DeFiOption } from '../hooks/DeFiOptionsProvider';
 // import { YieldOptionsListView } from "../components/YieldOptionsListView";
 
 const Home = () => {
   const [balance] = useWalletBalance();
+  const [defiOptions] = useDeFiOptions();
   const wallet = useWallet();
 
+  const defiTableColumns = useMemo(() => [
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Current APY',
+        accessor: 'current_apy',
+      },
+      {
+        Header: 'Total Deposits',
+        accessor: 'total_deposits',
+      },
+      {
+        Header: '', // Deposit Action Button
+        accessor: 'deposit_button',
+      }
+    ],
+    []
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+   } = useTable({ columns: defiTableColumns, data: defiOptions })
+      
   return (
-    <main className="p-5">
+    <main>
       <Head>
         <title>Simple Yields</title>
         <meta name="description" content="SimpleYields helps you get yields as easily as possible." />
@@ -27,12 +58,38 @@ const Home = () => {
         </>
       }
 
-      <div className="flex float-right space-x-5">
+      <div>
         <WalletMultiButton />
       </div>
 
-      <div className="app-body-mid">
-        {/* <YieldOptionsListView /> */}
+      <br/>
+
+      <div>
+
+        <table {...getTableProps()}>
+          <thead>
+          {headerGroups.map((headerGroup: any) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column: any) => (
+                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              ))}
+            </tr>
+          ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row: any) => {
+              prepareRow(row)
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell: any) => {
+                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+        
       </div>
 
     </main>

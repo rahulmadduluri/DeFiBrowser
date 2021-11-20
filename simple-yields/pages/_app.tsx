@@ -6,6 +6,7 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { WalletBalanceProvider } from '../hooks/WalletBalanceProvider';
 import dynamic from 'next/dynamic';
+import { DeFiOptionsProvider } from '../hooks/DeFiOptionsProvider';
 
 const WalletConnectionProvider = dynamic<{ children: ReactNode }>(
   () =>
@@ -23,7 +24,9 @@ const App = ({ Component, pageProps }: any) => {
     <WalletConnectionProvider>
         <WalletModalProvider>
           <WalletBalanceProvider>
-            <Component  {...pageProps} />
+            <DeFiOptionsProvider>
+              <Component  {...pageProps} />
+            </DeFiOptionsProvider>
           </WalletBalanceProvider>
         </WalletModalProvider>
     </WalletConnectionProvider>
