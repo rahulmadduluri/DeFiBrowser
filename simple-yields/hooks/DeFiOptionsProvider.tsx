@@ -25,14 +25,37 @@ export default function useDeFiOptions() {
 export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
   const { connection } = useConnection();
   const wallet = useWallet();
-  const [defiOptions, setDefiOptions] = useState([]);
+  const [defiOptions, setDefiOptions] = useState<DeFiOption[]>([]);
+
+  const depositPressedSolend = () => {
+    console.log("deposit tapped SOLEND");
+    return true;
+  };
+
+  const depositPressedJet = () => {
+    console.log("deposit tapped JET");
+    return true;
+  };
     
-    useEffect(() => {
-        (async () => {
-          if (wallet?.publicKey) {
-            // fetch DeFi Options
-          }
-        })();
+  useEffect(() => {
+      (async () => {
+        if (wallet?.publicKey) {
+          // fetch DeFi Options
+          const solendOption = {
+            name: "Solend",
+            currentAPY: 3.4,
+            existingDeposit: 0,
+            deposit: depositPressedSolend,
+          };
+          const jetOption = {
+            name: "Jet",
+            currentAPY: 5.0,
+            existingDeposit: 0,
+            deposit: depositPressedJet,
+          };
+          setDefiOptions([solendOption, jetOption]);
+        }
+      })();
     }, [wallet, connection]);
 
     return <DeFiOptionsContext.Provider

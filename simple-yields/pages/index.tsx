@@ -34,7 +34,9 @@ const Home = () => {
       {
         Header: '', // Deposit Action Button,
         accessor: 'deposit',
-        Cell: (props: DeFiOption) => <button onClick={() => props.deposit()}>Deposit</button>,
+        Cell: (props: any) => <button onClick={() => { 
+          props.cell.row.original.deposit();
+        } }>Deposit</button>,
       }
     ],
     []
