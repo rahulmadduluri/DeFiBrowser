@@ -6,13 +6,18 @@ import { useTable } from "react-table";
 import useWalletBalance from '../hooks/WalletBalanceProvider';
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import useDeFiOptions, { DeFiOption } from '../hooks/DeFiOptionsProvider';
-// import { YieldOptionsListView } from "../components/YieldOptionsListView";
 
 const Home = () => {
+  // balance of SOL
   const [balance] = useWalletBalance();
+
+  // array of DeFi options
   const [defiOptions] = useDeFiOptions();
+
+  // connected wallet
   const wallet = useWallet();
 
+  // Table Info 
   const defiTableColumns = useMemo(() => [
       {
         Header: 'Name',
@@ -20,15 +25,16 @@ const Home = () => {
       },
       {
         Header: 'Current APY',
-        accessor: 'current_apy',
+        accessor: 'currentAPY',
       },
       {
-        Header: 'Total Deposits',
-        accessor: 'total_deposits',
+        Header: 'Existing Deposit',
+        accessor: 'existingDeposit',
       },
       {
-        Header: '', // Deposit Action Button
-        accessor: 'deposit_button',
+        Header: '', // Deposit Action Button,
+        accessor: 'deposit',
+        Cell: (props: DeFiOption) => <button onClick={() => props.deposit()}>Deposit</button>,
       }
     ],
     []

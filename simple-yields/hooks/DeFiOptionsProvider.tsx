@@ -14,7 +14,7 @@ export interface DeFiOption {
   name: string;
   currentAPY: number;
   deposit(): boolean;
-  getExistingDeposit(): number;
+  existingDeposit: number;
 }
 
 export default function useDeFiOptions() {
@@ -22,7 +22,7 @@ export default function useDeFiOptions() {
   return [defiOptions, setDefiOptions]
 }
 
-export const DeFiOptionsProvider: React.FC<{}> = ({ children }) => {
+export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
   const { connection } = useConnection();
   const wallet = useWallet();
   const [defiOptions, setDefiOptions] = useState([]);
@@ -30,7 +30,7 @@ export const DeFiOptionsProvider: React.FC<{}> = ({ children }) => {
     useEffect(() => {
         (async () => {
           if (wallet?.publicKey) {
-            // fetch DeFi Options (eventually from server)
+            // fetch DeFi Options
           }
         })();
     }, [wallet, connection]);
