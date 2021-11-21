@@ -3,13 +3,13 @@ import Head from 'next/head'
 import { useState, useMemo } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useTable } from "react-table";
-import useWalletBalance from '../hooks/WalletBalanceProvider';
+import useWalletBalances from '../hooks/WalletBalanceProvider';
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import useDeFiOptions, { DeFiOption } from '../hooks/DeFiOptionsProvider';
 
 const Home = () => {
   // balance of SOL
-  const [balance] = useWalletBalance();
+  const [balances] = useWalletBalances();
 
   // array of DeFi options
   const [defiOptions] = useDeFiOptions();
@@ -48,7 +48,7 @@ const Home = () => {
     headerGroups,
     rows,
     prepareRow,
-   } = useTable({ columns: defiTableColumns, data: defiOptions })
+   } = useTable({ columns: defiTableColumns, data: defiOptions });
       
   return (
     <main>
@@ -62,7 +62,8 @@ const Home = () => {
 
       {wallet.connected &&
         <>
-          <p>Balance: {(balance || 0).toLocaleString()} SOL</p>
+          <p>SOL Balance: {(balances?.solBalance || 0).toLocaleString()} SOL</p>
+          <p>USDC Balance: {(balances?.usdcBalance || 0).toLocaleString()} USDC</p>
         </>
       }
 
