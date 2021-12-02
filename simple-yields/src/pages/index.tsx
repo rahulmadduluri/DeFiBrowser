@@ -58,7 +58,8 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h3>Make Up to 20% APY</h3>
+      <h1>Beat Inflation</h1>
+      <h3>Deposit your cryptocurrency. Make Up to 20% APY</h3>
 
       {wallet.connected &&
         <>

@@ -1,4 +1,3 @@
-
 import { PublicKey, Connection } from "@solana/web3.js";
 import BN from "bn.js";
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
@@ -25,18 +24,9 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
   const wallet = useWallet();
   const [defiOptions, setDefiOptions] = useState<DeFiOption[]>([]);
 
-  // SOLEND DEVNET
-
-  const SOLEND_PROGRAM_ID = "ALend7Ketfx5bxh6ghsCDXAoDrhvEmsXT3cynB6aPLgx";
-  const LENDING_MARKET_MAIN = "GvjoVKNjBvQcFaSKUW1gTE7DxhSpjHbE69umVR5nPuQp";
-  const OBLIGATION_LEN = 1300;
-  const RESERVES_TO_ASSET_MAP = {
-    "5VVLD7BQp8y3bTgyF5ezm1ResyMTR3PhYsT4iHFU8Sxz": "SOL",
-    "FNNkz4RCQezSSS71rW2tvqZH1LCkTzaiG7Nd1LeA5x5y": "USDC",
-  };
-
   const depositPressedSolend = () => {
     console.log("deposit tapped SOLEND");
+        
     return true;
   };
 
@@ -49,12 +39,19 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
       (async () => {
         if (wallet?.publicKey) {
           // fetch DeFi Options
+          // 1. fetch current APY (async)
+          // 2. fetch existing deposit (async)
+
+          // get reserve for USDC devnet account: FNNkz4RCQezSSS71rW2tvqZH1LCkTzaiG7Nd1LeA5x5y
+          // const solendReserve = wallet?.
           const solendOption = {
             name: "Solend",
             currentAPY: 3.4,
             existingDeposit: 0,
             deposit: depositPressedSolend,
           };
+
+
           const jetOption = {
             name: "Jet",
             currentAPY: 5.0,
