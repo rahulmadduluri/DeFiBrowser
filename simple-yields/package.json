@@ -20,6 +20,7 @@
     "@solana/wallet-adapter-wallets": "^0.11.3",
     "@solana/web3.js": "^1.30.2",
     "@types/react-table": "^7.7.8",
+    "bn.js": "^5.2.0",
     "common": "^0.2.5",
     "next": "12.0.4",
     "react": "17.0.2",

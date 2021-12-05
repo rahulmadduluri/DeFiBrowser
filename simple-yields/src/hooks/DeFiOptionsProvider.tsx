@@ -5,6 +5,9 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
 import React, { FC, createContext, useContext, useEffect, useState } from 'react';
 
+import { calculateSupplyAPY } from "../solend/apy";
+import { isReserve, ReserveParser } from "../solend/reserve";
+
 const DeFiOptionsContext = createContext(null);
 
 export interface DeFiOption {
@@ -25,8 +28,8 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
   const [defiOptions, setDefiOptions] = useState<DeFiOption[]>([]);
 
   const depositPressedSolend = () => {
+
     console.log("deposit tapped SOLEND");
-        
     return true;
   };
 
@@ -34,7 +37,7 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
     console.log("deposit tapped JET");
     return true;
   };
-    
+  
   useEffect(() => {
       (async () => {
         if (wallet?.publicKey) {
@@ -43,14 +46,27 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
           // 2. fetch existing deposit (async)
 
           // get reserve for USDC devnet account: FNNkz4RCQezSSS71rW2tvqZH1LCkTzaiG7Nd1LeA5x5y
-          // const solendReserve = wallet?.
-          const solendOption = {
+
+          var solendOption = {
             name: "Solend",
             currentAPY: 3.4,
             existingDeposit: 0,
             deposit: depositPressedSolend,
           };
 
+          // devnet public key
+          const usdcPubKey = new PublicKey("FNNkz4RCQezSSS71rW2tvqZH1LCkTzaiG7Nd1LeA5x5y");
+          const solendUSDCAccount = await connection.getAccountInfo(usdcPubKey);
+          if (solendUSDCAccount) {
+            console.log("1");
+            console.log(isReserve(solendUSDCAccount));
+            const solendUSDCReserve = ReserveParser(usdcPubKey, solendUSDCAccount);
+            if (solendUSDCReserve && solendUSDCReserve.info) {
+              console.log("2");
+              const apy = calculateSupplyAPY(solendUSDCReserve.info);
+              solendOption.currentAPY = Math.round(apy * 1000) / 10;
+            }
+          }
 
           const jetOption = {
             name: "Jet",
@@ -58,6 +74,7 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
             existingDeposit: 0,
             deposit: depositPressedJet,
           };
+
           setDefiOptions([solendOption, jetOption]);
         }
       })();
