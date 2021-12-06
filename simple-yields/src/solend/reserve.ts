@@ -141,12 +141,8 @@ export const ReserveParser = (pubkey: PublicKey, info: AccountInfo<Buffer>) => {
     const buffer = Buffer.from(data);
     const reserve = ReserveLayout.decode(buffer) as Reserve;
   
-    // if (reserve.lastUpdate.slot.isZero()) {
-    //   return null;
-    // }
-    // MOD
-    if (!reserve.lastUpdate.slot) {
-        return null;
+    if (reserve.lastUpdate.slot.isZero()) {
+      return null;
     }
 
     const details = {

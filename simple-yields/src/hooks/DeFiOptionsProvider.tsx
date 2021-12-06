@@ -6,14 +6,16 @@ import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
 import React, { FC, createContext, useContext, useEffect, useState } from 'react';
 
 import { calculateSupplyAPY } from "../solend/apy";
+import { depositReserveLiquidityAndObligationCollateralInstruction } from "../solend/deposit";
 import { isReserve, ReserveParser } from "../solend/reserve";
+import { parseObligation, isObligation, obligationToString } from "../solend/obligation";
 
 const DeFiOptionsContext = createContext(null);
 
 export interface DeFiOption {
   name: string;
   currentAPY: number;
-  deposit(): boolean;
+  deposit(amount: number): boolean;
   existingDeposit: number;
 }
 
@@ -27,13 +29,30 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
   const wallet = useWallet();
   const [defiOptions, setDefiOptions] = useState<DeFiOption[]>([]);
 
-  const depositPressedSolend = () => {
+  const depositPressedSolend = (amount: number) => {
+
+    // depositReserveLiquidityAndObligationCollateralInstruction(
+    //   liquidityAmount: number | BN,
+    //   sourceLiquidity: PublicKey,
+    //   sourceCollateral: PublicKey,
+    //   reserve: PublicKey,
+    //   reserveLiquiditySupply: PublicKey,
+    //   reserveCollateralMint: PublicKey,
+    //   lendingMarket: PublicKey,
+    //   lendingMarketAuthority: PublicKey,
+    //   destinationCollateral: PublicKey,
+    //   obligation: PublicKey,
+    //   obligationOwner: PublicKey,
+    //   pythOracle: PublicKey,
+    //   switchboardFeedAddress: PublicKey,
+    //   transferAuthority: PublicKey,
+    // );  
 
     console.log("deposit tapped SOLEND");
     return true;
   };
 
-  const depositPressedJet = () => {
+  const depositPressedJet = (amount: number) => {
     console.log("deposit tapped JET");
     return true;
   };
@@ -54,6 +73,7 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
             deposit: depositPressedSolend,
           };
 
+          // fetch solend APY
           // devnet public key
           const usdcPubKey = new PublicKey("FNNkz4RCQezSSS71rW2tvqZH1LCkTzaiG7Nd1LeA5x5y");
           const solendUSDCAccount = await connection.getAccountInfo(usdcPubKey);
@@ -66,7 +86,15 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
               const apy = calculateSupplyAPY(solendUSDCReserve.info);
               solendOption.currentAPY = Math.round(apy * 1000) / 10;
             }
+
+            // fetch solend existing deposit
+            /*
+            const solendUserAccount = await connection.getAccountInfo()
+            const obligation = parseObligation(wallet.publicKey, userAccount);
+            console.log(isObligation(solend))
+            */
           }
+
 
           const jetOption = {
             name: "Jet",
