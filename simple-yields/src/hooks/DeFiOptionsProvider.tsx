@@ -5,6 +5,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
 import React, { FC, createContext, useContext, useEffect, useState } from 'react';
 
+import { swapSolToUSDC } from '../orca/orca';
 import { calculateSupplyAPY } from "../solend/apy";
 import { depositReserveLiquidityAndObligationCollateralInstruction } from "../solend/deposit";
 import { isReserve, ReserveParser } from "../solend/reserve";
@@ -30,6 +31,10 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
   const [defiOptions, setDefiOptions] = useState<DeFiOption[]>([]);
 
   const depositPressedSolend = (amount: number) => {
+
+    if (wallet?.publicKey) {
+      swapSolToUSDC(connection, wallet.publicKey, amount);
+    }
 
     // depositReserveLiquidityAndObligationCollateralInstruction(
     //   liquidityAmount: number | BN,

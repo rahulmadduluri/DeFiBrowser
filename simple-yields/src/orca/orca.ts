@@ -1,18 +1,11 @@
 import { Connection, PublicKey } from "@solana/web3.js";
-import { getOrca, OrcaFarmConfig, OrcaPoolConfig } from "@orca-so/sdk";
+import { getOrca, Network, OrcaFarmConfig, OrcaPoolConfig } from "@orca-so/sdk";
 import Decimal from "decimal.js";
 
 
 export const swapSolToUSDC = async (connection: Connection, walletPublicKey: PublicKey, solAmountNum: number) => {
-    /*** Setup ***/
-    // 1. Read secret key file to get owner keypair
-    // const secretKeyString = await readFile("/Users/scuba/my-wallet/my-keypair.json", {
-    //     encoding: "utf8",
-    // }); 
-    // const secretKey = Uint8Array.from(JSON.parse(secretKeyString));
-    // const owner = Keypair.fromSecretKey(secretKey);
-
-    const orca = getOrca(connection);
+    // use devnet for now
+    const orca = getOrca(connection, Network.DEVNET);
 
     try {
         /*** Swap ***/

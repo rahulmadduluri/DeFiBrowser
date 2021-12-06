@@ -533,10 +533,10 @@
     typescript "^4.3.2"
     yargs "^17.0.1"
 
-"@orca-so/sdk@^1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@orca-so/sdk/-/sdk-1.2.5.tgz#f9545f512c6b175a5210c5149b50cae3b593d239"
-  integrity sha512-wpKluA6QEMvlhPNF0Y4WF0g+6/9+LzhIsTsSNu99OqPnn8s4VFPy26YsRrpptVeQERphw4uXg+GbLp/U3Dq7bQ==
+"@orca-so/sdk@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@orca-so/sdk/-/sdk-1.2.6.tgz#d3fbc66a78901fb34a797c18c82c672f9ae5edda"
+  integrity sha512-P49uVUNKWyBWJwY41L2SK0G8iQIfsNGsDg1g2p44F6D7u/xm8q/n4OY66KFaq2g3pdOnckHxPOB3ryLkCp6NFQ==
   dependencies:
     "@orca-so/aquafarm" "^0.0.12"
     "@orca-so/stablecurve" "^1.0.5"
