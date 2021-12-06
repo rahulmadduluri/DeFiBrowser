@@ -27,8 +27,7 @@ module.exports = withTM({
   reactStrictMode: true,
   webpack5: true,
   webpack: (config) => {
-    config.resolve.fallback = { fs: false, os: false, path: false, crypto: false };
-
+    config.resolve.fallback = { fs: false, os: false, path: false, crypto: false, http: false, https: false, querystring: false };
     return config;
   }
 });
