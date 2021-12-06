@@ -33,7 +33,7 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
   const depositPressedSolend = (amount: number) => {
 
     if (wallet?.publicKey) {
-      // swapSolToUSDC(connection, wallet.publicKey, amount);
+      swapSolToUSDC(connection, wallet.publicKey, amount);
     }
 
     // depositReserveLiquidityAndObligationCollateralInstruction(
