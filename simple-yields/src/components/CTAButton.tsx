@@ -4,7 +4,7 @@ const CTABtnBg = styled.div`
     height: 38px;
     width: 180px;
     border-radius: 8px;
-    background: linear-gradient(268.77deg, #C89B61 -18.53%, #F7C17A 111%);
+    background: ${props => props.theme.goldGradient};
 `
 
 const CTABtnInner = styled.button`
