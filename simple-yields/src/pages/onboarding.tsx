@@ -24,27 +24,40 @@ const OnboardingHeader = styled.p`
     line-height: 30px;
 `;
 
+const SlabContainer = styled.div`
+    width: 523px;
+    min-height: 571px;
+    display: flex;
+    flex-direction: row;
+`
+
 const OnboardingStepContainer = styled.div`
     margin-top: 36px;
 `
 
 const Onboarding = () => {
     const [currentStep, setCurrentStep] = useState(0); 
+    const steps = [{label: 'Connect Wallet'}, {label: 'Get SOL'}, {label: 'Get USDC'}, {label: 'Lend'}];
 
     return (
         <OnboardingBody>
             <OnboardingHeader>
                 Marble
             </OnboardingHeader>
-            <Slab/>
+            <SlabContainer>
+                {steps.map((value, index) => {
+                    return <Slab offset={(-523 - 120)*currentStep} enabled={index === currentStep}/>
+                })}
+            </SlabContainer>
             <OnboardingStepContainer>
                 <StepIndicator 
                     currentStep={currentStep} 
                     width={468}
                     height={56}
-                    steps={[{label: 'Connect Wallet'}, {label: 'Get SOL'}, {label: 'Get USDC'}, {label: 'Lend'}]}
+                    steps={steps}
                 />
             </OnboardingStepContainer>
+            <button onClick={() => setCurrentStep((prev) => prev+1)} />
         </OnboardingBody>
     )
 }

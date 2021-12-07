@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import white_marble from '../public/white_marble.png';
+import { motion } from "framer-motion"
 
-const Container = styled.div`
-    width: 523px;
+
+const Container = styled(motion.div)`
+    min-width: 523px;
     min-height: 571px;
+    margin-right: 120px;
     background: linear-gradient(123.63deg, #F7F9FA 2.32%, #EBECED 104.78%);
     background-blend-mode: multiply, normal;
     box-shadow: 0px 100px 70px -70px rgba(169, 180, 203, 0.25), -3px -3px 0px #FFFFFF, 0px 3px 0px rgba(214, 218, 223, 0.45), inset 0px -20px 20px rgba(255, 255, 255, 0.2);
@@ -22,12 +25,17 @@ const Container = styled.div`
       opacity: 0.10;
       border-radius: 36px;
     }
+`;
+
+type SlabProps = {
+    offset: number;
+    enabled: boolean;
 }
-
-`
-
-const Slab = () => {
-    return <Container/>
+const Slab = ({offset, enabled}: SlabProps) => {
+    return <Container 
+        animate={{ x: offset, opacity: enabled ? 1 : 0 }}
+        transition={{ duration: 0.75, ease: "easeInOut" }}
+    />
 }
 
 export default Slab;
