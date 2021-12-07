@@ -5,4 +5,5 @@ export const defaultTheme = {
     designWidth: "1440px",
     accentFont: "Libre Baskerville",
     defaultTextColor: "#2F3545",
+    goldGradient: "linear-gradient(268.77deg, #C89B61 -18.53%, #F7C17A 111%)",
 };
