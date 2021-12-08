@@ -35,7 +35,7 @@ const Home = () => {
         Header: '', // Deposit Action Button,
         accessor: 'deposit',
         Cell: (props: any) => <button onClick={() => { 
-          props.cell.row.original.deposit(0.1);
+          props.cell.row.original.deposit(1);
         } }>Deposit</button>,
       }
     ],
@@ -78,24 +78,39 @@ const Home = () => {
 
         <table {...getTableProps()}>
           <thead>
-          {headerGroups.map((headerGroup: any) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column: any) => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row: any) => {
-              prepareRow(row)
+            {headerGroups.map((headerGroup) => {
+              const { key, ...restHeaderGroupProps } =
+                headerGroup.getHeaderGroupProps();
               return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell: any) => {
-                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                <tr key={key} {...restHeaderGroupProps}>
+                  {headerGroup.headers.map((column) => {
+                    const { key, ...restColumn } = column.getHeaderProps();
+                    return (
+                      <th key={key} {...restColumn}>
+                        {column.render("Header")}
+                      </th>
+                    );
                   })}
                 </tr>
-              )
+              );
+            })}
+          </thead>
+          <tbody {...getTableBodyProps}>
+            {rows.map((row) => {
+              prepareRow(row);
+              const { key, ...restRowProps } = row.getRowProps();
+              return (
+                <tr key={key} {...restRowProps}>
+                  {row.cells.map((cell) => {
+                    const { key, ...restCellProps } = cell.getCellProps();
+                    return (
+                      <td key={key} {...restCellProps}>
+                        {cell.render("Cell")}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
             })}
           </tbody>
         </table>

@@ -34,7 +34,7 @@ const StepIndicator = ({width, height, steps, currentStep}: StepIndicatorProps) 
     return (
         <Container containerWidth={width} containerHeight={height}>
             {steps.map((stepData, i) => {
-                return <Step enabled={i === currentStep} showLine={i !== steps.length - 1} lineWidth={lineWidth} stepNumber={i + 1} label={stepData.label}/>
+                return <Step key={i} enabled={i === currentStep} showLine={i !== steps.length - 1} lineWidth={lineWidth} stepNumber={i + 1} label={stepData.label}/>
             })}
         </Container>
     )

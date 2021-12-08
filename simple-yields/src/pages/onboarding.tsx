@@ -47,7 +47,7 @@ const Onboarding = () => {
             <SlabContainer>
                 {steps.map((value, index) => {
                     return (
-                        <Slab offset={(-523 - 120)*currentStep} enabled={index === currentStep}>
+                        <Slab key={index} offset={(-523 - 120)*currentStep} enabled={index === currentStep}>
                             <div>hello</div>
                         </Slab>
                     )
