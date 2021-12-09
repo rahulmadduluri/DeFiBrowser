@@ -13,7 +13,7 @@ import { FC, ReactNode, useMemo } from 'react';
 export const WalletConnectionProvider: FC<{ children: ReactNode }> = ({ children }) => {
   // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
   // to use testnet, replace WalletAdapterNetwork.Devnet with http://127.0.0.1:8899
-  const network = WalletAdapterNetwork.Devnet;
+  const network = process.env.NODE_ENV === "development" ? WalletAdapterNetwork.Devnet : WalletAdapterNetwork.Mainnet;
 
     // You can also provide a custom RPC endpoint
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);

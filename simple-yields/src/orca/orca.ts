@@ -4,7 +4,8 @@ import Decimal from "decimal.js";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 
 export const fetchSolToUSDCConversionRate = async (connection: Connection, solAmountNum: number): Promise<number> => {
-    const orca = getOrca(connection, Network.DEVNET);
+    
+    const orca = getOrca(connection, process.env.NODE_ENV === "development" ? Network.DEVNET : Network.MAINNET);
 
     try {
         const solUSDCPool = orca.getPool(OrcaPoolConfig.SOL_USDC);
@@ -12,6 +13,7 @@ export const fetchSolToUSDCConversionRate = async (connection: Connection, solAm
         const solAmount = new Decimal(solAmountNum);
         const quote = await solUSDCPool.getQuote(solToken, solAmount);
         const usdcAmount = quote.getMinOutputAmount();
+        console.log(`Swap ${solAmount.toString()} SOL for at least ${usdcAmount.toNumber()} USDC`);
         return usdcAmount.toNumber();
     } catch (err) {
         console.log(err);
@@ -38,7 +40,7 @@ export const swapSolToUSDC = async (connection: Connection, wallet: WalletContex
     }
 
     // use devnet for now
-    const orca = getOrca(connection, Network.DEVNET);
+    const orca = getOrca(connection, process.env.NODE_ENV === "development" ? Network.DEVNET : Network.MAINNET);
 
     try {
         /*** Swap ***/
