@@ -1,7 +1,7 @@
 import { AccountInfo, PublicKey } from '@solana/web3.js';
 import BN from 'bn.js';
 import { blob, struct, u8 } from 'buffer-layout';
-import { decimal, Parser, publicKey, u128, u64 } from './layout';
+import { decimal, Parser, publicKey, u128, u64 } from '../utils/layout';
 import { LastUpdate, LastUpdateLayout } from './lastUpdate';
 
 export interface Reserve {

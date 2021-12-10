@@ -7,9 +7,9 @@ import React, { FC, createContext, useContext, useEffect, useState } from 'react
 
 import { swapSolToUSDC } from '../orca/orca';
 import { calculateSupplyAPY } from "../solend/apy";
-import { depositReserveLiquidityAndObligationCollateralInstruction } from "../solend/deposit";
-import { isReserve, ReserveParser } from "../solend/reserve";
-import { parseObligation, isObligation, obligationToString } from "../solend/obligation";
+import { fetchSupply } from "../solend/supply";
+import { isReserve, ReserveParser } from "../solend/state/reserve";
+import { parseObligation, isObligation, obligationToString } from "../solend/state/obligation";
 
 const DeFiOptionsContext = createContext(null);
 
@@ -36,23 +36,6 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
         swapSolToUSDC(connection, wallet, amount);
     }
 
-    // depositReserveLiquidityAndObligationCollateralInstruction(
-    //   liquidityAmount: number | BN,
-    //   sourceLiquidity: PublicKey,
-    //   sourceCollateral: PublicKey,
-    //   reserve: PublicKey,
-    //   reserveLiquiditySupply: PublicKey,
-    //   reserveCollateralMint: PublicKey,
-    //   lendingMarket: PublicKey,
-    //   lendingMarketAuthority: PublicKey,
-    //   destinationCollateral: PublicKey,
-    //   obligation: PublicKey,
-    //   obligationOwner: PublicKey,
-    //   pythOracle: PublicKey,
-    //   switchboardFeedAddress: PublicKey,
-    //   transferAuthority: PublicKey,
-    // );  
-
     console.log("deposit tapped SOLEND");
     return true;
   };
@@ -69,8 +52,6 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
           // 1. fetch current APY (async)
           // 2. fetch existing deposit (async)
 
-          // get reserve for USDC devnet account: FNNkz4RCQezSSS71rW2tvqZH1LCkTzaiG7Nd1LeA5x5y
-
           var solendOption = {
             name: "Solend",
             currentAPY: 3.4,
@@ -79,28 +60,20 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
           };
 
           // fetch solend APY
-          // devnet public key
+          // devnet usdc reserve
           const usdcPubKeyRaw = process.env.NODE_ENV === "development" ? "FNNkz4RCQezSSS71rW2tvqZH1LCkTzaiG7Nd1LeA5x5y" : "BgxfHJDzm44T7XG68MYKx7YisTjZu73tVovyZSjJMpmw";
           const usdcPubKey = new PublicKey(usdcPubKeyRaw);
           const solendUSDCAccount = await connection.getAccountInfo(usdcPubKey);
           if (solendUSDCAccount) {
-            console.log("1");
-            console.log(isReserve(solendUSDCAccount));
             const solendUSDCReserve = ReserveParser(usdcPubKey, solendUSDCAccount);
             if (solendUSDCReserve && solendUSDCReserve.info) {
-              console.log("2");
               const apy = calculateSupplyAPY(solendUSDCReserve.info);
-              solendOption.currentAPY = Math.round(apy * 1000) / 10;
+              solendOption.currentAPY = Math.round(apy * 10000) / 100;
             }
 
             // fetch solend existing deposit
-            /*
-            const solendUserAccount = await connection.getAccountInfo()
-            const obligation = parseObligation(wallet.publicKey, userAccount);
-            console.log(isObligation(solend))
-            */
+            solendOption.existingDeposit = await fetchSupply(connection, wallet.publicKey);
           }
-
 
           const jetOption = {
             name: "Jet",

@@ -21,19 +21,7 @@ export const fetchSolToUSDCConversionRate = async (connection: Connection, solAm
     }
 }
 
-export const swapSolToUSDC = async (connection: Connection, wallet: WalletContextState, solAmountNum: number) => {
-
-    // const owner = wallet.publicKey
-    // const swapPayload = await orcaSolPool.swap(owner, solToken, solAmount, orcaAmount);
-    // swapPayload.transaction.partialSign(...swapPayload.signers);
-    // const signedTransaction = await wallet.signTransaction( swapPayload.transaction);
-    // const rawTransaction = signedTransaction.serialize();
-    //  let options = {
-    //             skipPreflight: true,
-    //             commitment: "confirmed",
-    //         };
-    // const txid = await connection.sendRawTransaction(rawTransaction, options);
-    
+export const swapSolToUSDC = async (connection: Connection, wallet: WalletContextState, solAmountNum: number) => {    
 
     if (!wallet.publicKey) {
         return;

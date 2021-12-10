@@ -1,4 +1,4 @@
-import { Reserve } from './reserve';
+import { Reserve } from './state/reserve';
 import BN from 'bn.js';
 
 export const calculateSupplyAPY = (reserve: Reserve) => {
