@@ -21,7 +21,7 @@ export const fetchSolToUSDCConversionRate = async (connection: Connection, solAm
     }
 }
 
-export const swapSolToUSDC = async (connection: Connection, wallet: WalletContextState, solAmountNum: number) => {    
+export const swapSolToUSDC = async (connection: Connection, wallet: WalletContextState, solAmountNum: number, cb?: (success: boolean) => void) => {    
 
     if (!wallet.publicKey) {
         return;
@@ -53,8 +53,10 @@ export const swapSolToUSDC = async (connection: Connection, wallet: WalletContex
            const txid = await connection.sendRawTransaction(rawTransaction, options);
 
            console.log("Swapped:", txid, "\n");
+           if (cb) cb(true);
         }
     } catch (err) {
         console.warn(err);
+        if(cb) cb(false);
     }
 };

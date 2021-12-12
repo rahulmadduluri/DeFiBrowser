@@ -70,7 +70,7 @@ const Onboarding = ({solPrice}: OnboardingProps) => {
                         <Slab offset={(-523 - 120)*currentStep} enabled={index === currentStep}>
                             {index === 0 ? <OnboardingStepOne completeStep={() => setCurrentStep(1)}/> : null}
                             {index === 1 ? <OnboardingStepTwo solPrice={solPrice} completeStep={() => setCurrentStep(2)}/> : null}
-                            {index === 2 ? <OnboardingStepThree/> : null}
+                            {index === 2 ? <OnboardingStepThree completeStep={() => setCurrentStep(3)}/> : null}
                         </Slab>
                     )
                 })}
