@@ -80,6 +80,7 @@ const EntryBalanceRow = styled.div`
     font-size: 9px;
     line-height: 11px;
     color: #B2B2B2;
+    white-space: nowrap;
 `;
 
 type EntryFieldProps = {
@@ -114,7 +115,7 @@ const EntryField = ({width, height, placeholder, disabled, setInput, displayText
                         <CurrencySymbol src={currencyIconSrc}/>
                         <CurrencyText>{currencyName}</CurrencyText>
                     </EntryCurrencyRow>
-                    <EntryBalanceRow>{balance ? `Balance: ${balance.toFixed(2).toString()}` : ''}</EntryBalanceRow>
+                    <EntryBalanceRow>{balance ? `Balance: ${balance >= 1 ? balance.toFixed(2).toString() : balance.toFixed(4).toString()}` : 'Balance: 0'}</EntryBalanceRow>
                 </RightContainer>
             </InnerContainer>
         </Wrapper>

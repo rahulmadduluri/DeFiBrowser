@@ -9,7 +9,7 @@ import useDeFiOptions, { DeFiOption } from '../hooks/DeFiOptionsProvider';
 
 const Home = () => {
   // balance of SOL
-  const [balances] = useWalletBalances();
+  const balances = useWalletBalances();
 
   // array of DeFi options
   const [defiOptions] = useDeFiOptions();
@@ -63,8 +63,8 @@ const Home = () => {
 
       {wallet.connected &&
         <>
-          <p>SOL Balance: {(balances?.solBalance || 0).toLocaleString()} SOL</p>
-          <p>USDC Balance: {(balances?.usdcBalance || 0).toLocaleString()} USDC</p>
+          <p>SOL Balance: {(balances?.balances?.solBalance || 0).toLocaleString()} SOL</p>
+          <p>USDC Balance: {(balances?.balances?.usdcBalance || 0).toLocaleString()} USDC</p>
         </>
       }
 

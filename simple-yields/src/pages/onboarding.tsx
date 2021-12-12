@@ -67,7 +67,7 @@ const Onboarding = ({solPrice}: OnboardingProps) => {
             <SlabContainer>
                 {steps.map((value, index) => {
                     return (
-                        <Slab offset={(-523 - 120)*currentStep} enabled={index === currentStep}>
+                        <Slab key={index} offset={(-523 - 120)*currentStep} enabled={index === currentStep}>
                             {index === 0 ? <OnboardingStepOne completeStep={() => setCurrentStep(1)}/> : null}
                             {index === 1 ? <OnboardingStepTwo solPrice={solPrice} completeStep={() => setCurrentStep(2)}/> : null}
                             {index === 2 ? <OnboardingStepThree completeStep={() => setCurrentStep(3)}/> : null}
@@ -83,7 +83,6 @@ const Onboarding = ({solPrice}: OnboardingProps) => {
                     steps={steps}
                 />
             </OnboardingStepContainer>
-            <button onClick={() => setCurrentStep((prev) => prev+1)} />
         </OnboardingBody>
     )
 }

@@ -117,8 +117,8 @@ const OnboardingStepThree = ({completeStep}: OnboardingStepTwoProps) => {
 
     const convert = useCallback(() => {
         if (solInput && wallet && connection) {
-            swapSolToUSDC(connection, wallet, solInput, (err) => {
-                if (!err){
+            swapSolToUSDC(connection, wallet, solInput, (success) => {
+                if (success){
                     completeStep();
                 } else {
                     alert("Something went wrong!");

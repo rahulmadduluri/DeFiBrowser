@@ -53,12 +53,12 @@ const OnboardingStepTwo = ({solPrice, completeStep} : OnboardingStepTwoProps) =>
     const {balances, loading} = useWalletBalances();
 
     const solBalance = balances?.solBalance;
-
+    
     return (
        <Wrapper> 
            {(solBalance > 0) ? 
             <>
-                <HeaderText>You have {solBalance.toFixed(0).toString()} SOL</HeaderText> 
+                <HeaderText>You have {solBalance >= 1 ? solBalance.toFixed(2).toString() : solBalance.toFixed(4).toString()} SOL</HeaderText> 
                 <ExplainerText>Nice lets invest it</ExplainerText>
                 <ButtonWrapper><CTAButton innerText={'Next'} onClick={completeStep}/></ButtonWrapper>
             </>

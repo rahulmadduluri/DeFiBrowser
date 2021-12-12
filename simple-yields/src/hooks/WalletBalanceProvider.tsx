@@ -27,13 +27,19 @@ export const WalletBalanceProvider: React.FC<{}> = ({ children }) => {
     (async () => {
       if (wallet?.publicKey) {
         const balance = await connection.getBalance(wallet.publicKey);
+        var solBalance = balance / LAMPORTS_PER_SOL;
         // NOTE: this is public key of devnet SOLEND usdc 
         const usdcAddress = process.env.NODE_ENV === "development" ? "zVzi5VAf4qMEwzv7NXECVx5v2pQ7xnqVVjCXZwS9XzA" : "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
         const usdcPublicKey = new PublicKey(usdcAddress);
         const usdcAccount = await connection.getTokenAccountsByOwner(wallet.publicKey, { mint: usdcPublicKey } );
-        const usdcBalanceWrapped = await connection.getTokenAccountBalance(usdcAccount.value[0].pubkey);
-        var solBalance = balance / LAMPORTS_PER_SOL;
-        var usdcBalance = usdcBalanceWrapped.value.uiAmount ? usdcBalanceWrapped.value.uiAmount : 0;
+        var usdcBalance;
+        if (usdcAccount.value[0]){
+          const usdcBalanceWrapped = await connection.getTokenAccountBalance(usdcAccount.value[0].pubkey);
+          usdcBalance = usdcBalanceWrapped.value.uiAmount ? usdcBalanceWrapped.value.uiAmount : 0;
+        } else {
+          usdcBalance = 0;
+        }
+        
         setBalances({solBalance, usdcBalance});
         setLoading(false);
       }
