@@ -1,5 +1,5 @@
 import { struct } from 'buffer-layout';
-import { bool, u64 } from './layout';
+import { bool, u64 } from '../utils/layout';
 import BN from 'bn.js';
 
 export interface LastUpdate {

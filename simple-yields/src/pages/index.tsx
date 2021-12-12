@@ -145,7 +145,7 @@ const Home = () => {
 
   const router = useRouter();
 
-  const handleCTAClick = (e) => {
+  const handleCTAClick = (e: any) => {
     e.preventDefault()
     router.push('onboarding');
   };

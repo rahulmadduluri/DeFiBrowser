@@ -1,14 +1,13 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {
   PublicKey,
   SYSVAR_CLOCK_PUBKEY,
   TransactionInstruction,
-} from '@solana/web3.js';
-import BN from 'bn.js';
-import * as BufferLayout from 'buffer-layout';
-const CommonPackage = require('common');
-import * as Layout from './layout';
-import { LendingInstruction } from './instructions';
+} from "@solana/web3.js";
+import BN from "bn.js";
+import * as BufferLayout from "buffer-layout";
+import * as Layout from "../utils/layout";
+import { LendingInstruction } from "./instruction";
 
 /// Deposit liquidity into a reserve in exchange for collateral, and deposit the collateral as well.
 export const depositReserveLiquidityAndObligationCollateralInstruction = (
@@ -26,21 +25,21 @@ export const depositReserveLiquidityAndObligationCollateralInstruction = (
   pythOracle: PublicKey,
   switchboardFeedAddress: PublicKey,
   transferAuthority: PublicKey,
+  solendProgramAddress: PublicKey
 ): TransactionInstruction => {
   const dataLayout = BufferLayout.struct([
-    BufferLayout.u8('instruction'),
-    Layout.u64('liquidityAmount'),
+    BufferLayout.u8("instruction"),
+    Layout.u64("liquidityAmount"),
   ]);
 
   const data = Buffer.alloc(dataLayout.span);
   dataLayout.encode(
     {
       instruction:
-        // can hardcode to enum number `14`
         LendingInstruction.DepositReserveLiquidityAndObligationCollateral,
       liquidityAmount: new BN(liquidityAmount),
     },
-    data,
+    data
   );
 
   const keys = [
@@ -60,10 +59,9 @@ export const depositReserveLiquidityAndObligationCollateralInstruction = (
     { pubkey: SYSVAR_CLOCK_PUBKEY, isSigner: false, isWritable: false },
     { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
   ];
-  const solendInfo = CommonPackage.getConfig();
   return new TransactionInstruction({
     keys,
-    programId: new PublicKey(solendInfo.programID),
+    programId: solendProgramAddress,
     data,
   });
 };

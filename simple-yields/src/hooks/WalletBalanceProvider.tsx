@@ -28,7 +28,8 @@ export const WalletBalanceProvider: React.FC<{}> = ({ children }) => {
       if (wallet?.publicKey) {
         const balance = await connection.getBalance(wallet.publicKey);
         // NOTE: this is public key of devnet SOLEND usdc 
-        const usdcPublicKey = new PublicKey("zVzi5VAf4qMEwzv7NXECVx5v2pQ7xnqVVjCXZwS9XzA");
+        const usdcAddress = process.env.NODE_ENV === "development" ? "zVzi5VAf4qMEwzv7NXECVx5v2pQ7xnqVVjCXZwS9XzA" : "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+        const usdcPublicKey = new PublicKey(usdcAddress);
         const usdcAccount = await connection.getTokenAccountsByOwner(wallet.publicKey, { mint: usdcPublicKey } );
         const usdcBalanceWrapped = await connection.getTokenAccountBalance(usdcAccount.value[0].pubkey);
         var solBalance = balance / LAMPORTS_PER_SOL;
