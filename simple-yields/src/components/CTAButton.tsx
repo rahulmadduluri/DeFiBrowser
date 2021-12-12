@@ -29,11 +29,11 @@ const CTABtnInner = styled.button`
 
 
 
-const CTAButton = ({onClick}: any) => {
+const CTAButton = ({onClick, innerText}: any) => {
     return (
         <CTABtnBg>
             <CTABtnInner onClick={onClick}>
-                Get Started
+                {innerText ? innerText : 'Get Started'}
             </CTABtnInner>
         </CTABtnBg>
     )

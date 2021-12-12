@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { useState } from 'react';
+import { GetServerSideProps } from "next";
 import Slab from "../components/Slab";
 import StepIndicator from "../components/StepIndicator";
+import OnboardingStepOne from "../components/OnboardingPages/OnboardingStepOne";
+import OnboardingStepTwo from "../components/OnboardingPages/OnboardingStepTwo";
+import OnboardingStepThree from "../components/OnboardingPages/OnboardingStepThree";
 
 
 const OnboardingBody = styled.div`
@@ -35,7 +39,23 @@ const OnboardingStepContainer = styled.div`
     margin-top: 36px;
 `
 
-const Onboarding = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const res = await fetch('https://ftx.us/api/markets/SOL/USD');
+    const data = await res.json();
+    const solPrice = data.result.price;
+
+    return {
+        props: {
+            solPrice,
+        }
+    }
+}
+
+type OnboardingProps = {
+    solPrice: number
+};
+
+const Onboarding = ({solPrice}: OnboardingProps) => {
     const [currentStep, setCurrentStep] = useState(0); 
     const steps = [{label: 'Connect Wallet'}, {label: 'Get SOL'}, {label: 'Get USDC'}, {label: 'Lend'}];
 
@@ -48,7 +68,9 @@ const Onboarding = () => {
                 {steps.map((value, index) => {
                     return (
                         <Slab offset={(-523 - 120)*currentStep} enabled={index === currentStep}>
-                            <div>hello</div>
+                            {index === 0 ? <OnboardingStepOne completeStep={() => setCurrentStep(1)}/> : null}
+                            {index === 1 ? <OnboardingStepTwo solPrice={solPrice} completeStep={() => setCurrentStep(2)}/> : null}
+                            {index === 2 ? <OnboardingStepThree/> : null}
                         </Slab>
                     )
                 })}

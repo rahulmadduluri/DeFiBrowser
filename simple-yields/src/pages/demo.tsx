@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useTable } from "react-table";
 import useWalletBalances from '../hooks/WalletBalanceProvider';
-import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { WalletDisconnectButton, WalletMultiButton, WalletConnectButton } from '@solana/wallet-adapter-react-ui';
 import useDeFiOptions, { DeFiOption } from '../hooks/DeFiOptionsProvider';
 
 const Home = () => {
