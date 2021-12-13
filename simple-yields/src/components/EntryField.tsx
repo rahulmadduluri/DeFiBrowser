@@ -40,7 +40,7 @@ const InputField = styled.input`
 `;
 
 const RightContainer = styled.div`
-    width: 64px;
+    width: 84px;
     height: calc(100% - 16px);
 `;
 
