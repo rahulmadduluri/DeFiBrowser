@@ -7,7 +7,7 @@ import React, { FC, createContext, useContext, useEffect, useState } from 'react
 
 import { swapSolToUSDC } from '../orca/orca';
 import { calculateSupplyAPY } from "../solend/apy";
-import { fetchSupply } from "../solend/supply";
+import { fetchSupply, supply } from "../solend/supply";
 import { isReserve, ReserveParser } from "../solend/state/reserve";
 import { parseObligation, isObligation, obligationToString } from "../solend/state/obligation";
 
@@ -17,7 +17,7 @@ export interface DeFiOption {
   name: string;
   currentAPY: number;
   deposit(amount: number): boolean;
-  existingDeposit: number;
+  existingDeposit: string;
 }
 
 export default function useDeFiOptions() {
@@ -33,7 +33,9 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
   const depositPressedSolend = (amount: number) => {
 
     if (wallet?.publicKey) {
-        swapSolToUSDC(connection, wallet, amount);
+      // swapSolToUSDC(connection, wallet, amount);
+
+      supply(connection, wallet?.publicKey, wallet.sendTransaction, amount.toString(), "USDC");
     }
 
     console.log("deposit tapped SOLEND");
@@ -55,7 +57,7 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
           var solendOption = {
             name: "Solend",
             currentAPY: 3.4,
-            existingDeposit: 0,
+            existingDeposit: "0",
             deposit: depositPressedSolend,
           };
 
@@ -72,13 +74,14 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
             }
 
             // fetch solend existing deposit
-            solendOption.existingDeposit = await fetchSupply(connection, wallet.publicKey);
+            const existingDepositSolend = await fetchSupply(connection, wallet.publicKey);
+            solendOption.existingDeposit = existingDepositSolend.toString();
           }
 
           const jetOption = {
             name: "Jet",
             currentAPY: 5.0,
-            existingDeposit: 0,
+            existingDeposit: "0",
             deposit: depositPressedJet,
           };
 
