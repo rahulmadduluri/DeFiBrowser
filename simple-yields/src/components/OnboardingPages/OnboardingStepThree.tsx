@@ -133,7 +133,7 @@ const OnboardingStepThree = ({completeStep}: OnboardingStepTwoProps) => {
                 Convert SOL to USDC
             </HeaderText>
             <ExplainerText>
-                USDC is a stablecoin. Stablecoins are coins who’s value is tied to another currency. 1 USDC is worth 1 dollar. Your principal’s value in USDC will always be stable.
+                USDC is a stablecoin. Stablecoins are coins who’s value is tied to another currency. 1 USDC is worth 1 dollar.
             </ExplainerText>
             <DepositWrapper>
                 <FieldLabel>Deposit</FieldLabel>

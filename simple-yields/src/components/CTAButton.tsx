@@ -44,7 +44,7 @@ type CTAButtonProps = {
 
 const CTAButton = ({onClick, innerText}: CTAButtonProps) => {
     return (
-        <CTABtnBg whileHover={{scale: 1.01}}>
+        <CTABtnBg whileHover={{scale: 1.01}} whileTap={{scale: 0.99}}>
             <CTABtnInner onClick={onClick}>
                 {innerText ? innerText : 'Get Started'}
             </CTABtnInner>

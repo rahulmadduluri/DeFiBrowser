@@ -23,7 +23,7 @@ const StepCircle = styled.div<StepCircleProps>`
     background: radial-gradient(64.71% 71.26% at 31.61% 28.74%, rgba(255, 255, 255, 0) 30.73%, rgba(176, 180, 190, 0.1) 68.75%, rgba(255, 255, 255, 0) 100%), radial-gradient(76.24% 71.26% at 31.61% 28.74%, #FFFFFF 0%, #E5E8EC 67.27%, #FFFFFF 100%);
     background-blend-mode: darken, normal;
     box-shadow: inset 0px -4px 4px rgba(255, 255, 255, 0.02), inset 0px 4px 4px rgba(255, 255, 255, 0.02);
-    border: ${props => props.enabled ? 'solid 1px #f7c17aac' : null};
+    border: ${props => props.enabled ? 'solid 2px #f7c17aac' : null};
 `
 
 type StepLineProps = {
@@ -49,7 +49,7 @@ const StepNumber = styled.p`
     text-align: center;
     letter-spacing: 0.02em;
     position: relative;
-    top: -6px;
+    top: -7px;
     color: ${props => props.theme.defaultTextColor};
 `;
 
