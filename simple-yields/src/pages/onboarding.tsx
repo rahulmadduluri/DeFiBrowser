@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { useState } from 'react';
 import { GetServerSideProps } from "next";
+import Head from 'next/head';
 import Slab from "../components/Slab";
 import StepIndicator from "../components/StepIndicator";
 import OnboardingStepOne from "../components/OnboardingPages/OnboardingStepOne";
 import OnboardingStepTwo from "../components/OnboardingPages/OnboardingStepTwo";
 import OnboardingStepThree from "../components/OnboardingPages/OnboardingStepThree";
+import favicon from '../public/favicon.ico';
 
 
 const OnboardingBody = styled.div`
@@ -60,30 +62,37 @@ const Onboarding = ({solPrice}: OnboardingProps) => {
     const steps = [{label: 'Connect Wallet'}, {label: 'Get SOL'}, {label: 'Get USDC'}, {label: 'Lend'}];
 
     return (
-        <OnboardingBody>
-            <OnboardingHeader>
-                Marble
-            </OnboardingHeader>
-            <SlabContainer>
-                {steps.map((value, index) => {
-                    return (
-                        <Slab key={index} offset={(-523 - 120)*currentStep} enabled={index === currentStep}>
-                            {index === 0 ? <OnboardingStepOne completeStep={() => setCurrentStep(1)}/> : null}
-                            {index === 1 ? <OnboardingStepTwo solPrice={solPrice} completeStep={() => setCurrentStep(2)}/> : null}
-                            {index === 2 ? <OnboardingStepThree completeStep={() => setCurrentStep(3)}/> : null}
-                        </Slab>
-                    )
-                })}
-            </SlabContainer>
-            <OnboardingStepContainer>
-                <StepIndicator 
-                    currentStep={currentStep} 
-                    width={468}
-                    height={56}
-                    steps={steps}
-                />
-            </OnboardingStepContainer>
-        </OnboardingBody>
+        <>
+            <Head>
+                <title>Marble Finance</title>
+                <meta name="description" content="SimpleYields helps you get yields as easily as possible." />
+                <link rel="icon" href={favicon.src} />
+            </Head>
+            <OnboardingBody>
+                <OnboardingHeader>
+                    Marble
+                </OnboardingHeader>
+                <SlabContainer>
+                    {steps.map((value, index) => {
+                        return (
+                            <Slab key={index} offset={(-523 - 120)*currentStep} enabled={index === currentStep}>
+                                {index === 0 ? <OnboardingStepOne completeStep={() => setCurrentStep(1)}/> : null}
+                                {index === 1 ? <OnboardingStepTwo solPrice={solPrice} completeStep={() => setCurrentStep(2)}/> : null}
+                                {index === 2 ? <OnboardingStepThree completeStep={() => setCurrentStep(3)}/> : null}
+                            </Slab>
+                        )
+                    })}
+                </SlabContainer>
+                <OnboardingStepContainer>
+                    <StepIndicator 
+                        currentStep={currentStep} 
+                        width={468}
+                        height={56}
+                        steps={steps}
+                    />
+                </OnboardingStepContainer>
+            </OnboardingBody>
+        </>
     )
 }
 

@@ -55,7 +55,7 @@ const Home = () => {
       <Head>
         <title>Simple Yields</title>
         <meta name="description" content="SimpleYields helps you get yields as easily as possible." />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
       <h1>Beat Inflation</h1>

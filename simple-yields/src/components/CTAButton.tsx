@@ -1,10 +1,15 @@
 import styled from "styled-components";
+import { motion } from 'framer-motion';
 
-const CTABtnBg = styled.div`
+const CTABtnBg = styled(motion.div)`
     height: 38px;
     width: 180px;
     border-radius: 8px;
     background: ${props => props.theme.goldGradient};
+    :hover {
+        background: ${props => props.theme.goldGradientLight};
+        cursor: pointer;
+    }
 `
 
 const CTABtnInner = styled.button`
@@ -15,7 +20,7 @@ const CTABtnInner = styled.button`
     top: 2px;
     left: 2px;
     position: relative;
-    background-color: ${props => props.theme.pageBg};
+    background-color: ${props => props.theme.btnBg};
     text-align: center;
     font-family: Libre Baskerville;
     font-style: normal;
@@ -25,13 +30,21 @@ const CTABtnInner = styled.button`
     text-align: center;
     letter-spacing: 0.02em;
     color: ${props => props.theme.defaultTextColor};
+    
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 
+type CTAButtonProps = {
+    onClick: () => void;
+    innerText?: string;
+};
 
-const CTAButton = ({onClick, innerText}: any) => {
+const CTAButton = ({onClick, innerText}: CTAButtonProps) => {
     return (
-        <CTABtnBg>
+        <CTABtnBg whileHover={{scale: 1.01}}>
             <CTABtnInner onClick={onClick}>
                 {innerText ? innerText : 'Get Started'}
             </CTABtnInner>
