@@ -3,36 +3,51 @@ import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { createContext, useContext, useEffect, useState } from "react";
 import * as anchor from "@project-serum/anchor";
 
-const BalanceContext = createContext(null);
+interface WalletBalances {
+  balances: {solBalance: number, usdcBalance: number} ;
+  setBalances?: (solBalance: number, usdcBalance: number) => void;
+  loading: boolean;
+}
 
-export default function useWalletBalances(): {solBalance: number, usdcBalance: number} | any  {
-  const [balances, setBalances]: {solBalance: number, usdcBalance: number} | any = useContext(BalanceContext);
-  return [balances, setBalances]
+const BalanceContext = createContext<WalletBalances>({balances: {solBalance: -1, usdcBalance: -1}, loading: true});
+
+export default function useWalletBalances(): WalletBalances  {
+  const context: WalletBalances = useContext(BalanceContext);
+  return context;
 }
 
 export const WalletBalanceProvider: React.FC<{}> = ({ children }) => {
   const { connection } = useConnection();
   const wallet = useWallet();
   const [balances, setBalances] = useState<{solBalance: number, usdcBalance: number} | any>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setLoading(true);
     (async () => {
       if (wallet?.publicKey) {
         const balance = await connection.getBalance(wallet.publicKey);
+        var solBalance = balance / LAMPORTS_PER_SOL;
         // NOTE: this is public key of devnet SOLEND usdc 
         const usdcAddress = process.env.NODE_ENV === "development" ? "zVzi5VAf4qMEwzv7NXECVx5v2pQ7xnqVVjCXZwS9XzA" : "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
         const usdcPublicKey = new PublicKey(usdcAddress);
         const usdcAccount = await connection.getTokenAccountsByOwner(wallet.publicKey, { mint: usdcPublicKey } );
-        const usdcBalanceWrapped = await connection.getTokenAccountBalance(usdcAccount.value[0].pubkey);
-        var solBalance = balance / LAMPORTS_PER_SOL;
-        var usdcBalance = usdcBalanceWrapped.value.uiAmount ? usdcBalanceWrapped.value.uiAmount : 0;
+        var usdcBalance;
+        if (usdcAccount.value[0]){
+          const usdcBalanceWrapped = await connection.getTokenAccountBalance(usdcAccount.value[0].pubkey);
+          usdcBalance = usdcBalanceWrapped.value.uiAmount ? usdcBalanceWrapped.value.uiAmount : 0;
+        } else {
+          usdcBalance = 0;
+        }
+        
         setBalances({solBalance, usdcBalance});
+        setLoading(false);
       }
     })();
   }, [wallet, connection]);
 
   return <BalanceContext.Provider
-    value={[balances, setBalances] as {solBalance: number, usdcBalance: number} | any}>
+    value={{balances, setBalances, loading} as WalletBalances}>
     {children}
   </BalanceContext.Provider>
 

@@ -72,7 +72,6 @@ const StepContainer = styled.div`
 `
 
 const Step = ({enabled, lineWidth = 100, showLine, stepNumber, label}: StepProps) => {
-    console.log(enabled);
     return (
         <StepContainer>
             <StepCircle enabled={enabled}>

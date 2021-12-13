@@ -4,12 +4,12 @@ import { useState, useMemo } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useTable } from "react-table";
 import useWalletBalances from '../hooks/WalletBalanceProvider';
-import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { WalletDisconnectButton, WalletMultiButton, WalletConnectButton } from '@solana/wallet-adapter-react-ui';
 import useDeFiOptions, { DeFiOption } from '../hooks/DeFiOptionsProvider';
 
 const Home = () => {
   // balance of SOL
-  const [balances] = useWalletBalances();
+  const balances = useWalletBalances();
 
   // array of DeFi options
   const [defiOptions] = useDeFiOptions();
@@ -55,7 +55,7 @@ const Home = () => {
       <Head>
         <title>Simple Yields</title>
         <meta name="description" content="SimpleYields helps you get yields as easily as possible." />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
       <h1>Beat Inflation</h1>
@@ -63,8 +63,8 @@ const Home = () => {
 
       {wallet.connected &&
         <>
-          <p>SOL Balance: {(balances?.solBalance || 0).toLocaleString()} SOL</p>
-          <p>USDC Balance: {(balances?.usdcBalance || 0).toLocaleString()} USDC</p>
+          <p>SOL Balance: {(balances?.balances?.solBalance || 0).toLocaleString()} SOL</p>
+          <p>USDC Balance: {(balances?.balances?.usdcBalance || 0).toLocaleString()} USDC</p>
         </>
       }
 

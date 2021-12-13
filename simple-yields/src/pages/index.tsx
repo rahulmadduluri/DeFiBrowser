@@ -8,6 +8,7 @@ import black_marble from '../public/black_marble.png';
 import pillar_base from '../public/pillar_base.png';
 import pillar_top from '../public/pillar_top.png';
 import pillar_arrow from '../public/pillar_arrow.png';
+import favicon from '../public/favicon.ico';
 
 
 const Hero = styled.main`
@@ -155,7 +156,7 @@ const Home = () => {
       <Head>
         <title>Marble Finance</title>
         <meta name="description" content="SimpleYields helps you get yields as easily as possible." />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={favicon.src}/>
       </Head>
       <Hero>
         <HeaderContainer>
