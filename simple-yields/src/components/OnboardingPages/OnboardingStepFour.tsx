@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from 'react';
 import useWalletBalances from "../../hooks/WalletBalanceProvider";
 import EntryField from "../EntryField";
 import usdcIcon from '../../public/usdcIcon.png';
@@ -18,7 +19,7 @@ const HeaderText = styled.h2`
     color: ${props => props.theme.defaultTextColor};
 `;
 
-const ExplainerText = styled.p`
+const ExplainerText = styled.h1`
     font-family: Inter;
     font-style: normal;
     font-weight: 300;
@@ -65,18 +66,20 @@ const ConvertButtonWrapper = styled.div`
 
 const OnboardingStepFour = () => {
     const { balances } = useWalletBalances();
+    const [ despositInput, setDespositInput ] = useState<number>();
     const [ defiOptions ] = useDeFiOptions();
+    const solendOption = defiOptions[0];
 
     return (
         <Wrapper>
             <HeaderText>Lend USDC</HeaderText>
-            <ExplainerText><GreenText>{defiOptions[0]?.currentAPY}%</GreenText> APY</ExplainerText>
+            <ExplainerText><GreenText>{solendOption?.currentAPY}%</GreenText> APY</ExplainerText>
             <DepositWrapper>
                 <FieldLabel>Deposit</FieldLabel>
-                <EntryField width={475} height={51} currencyName={'USDC'} balance={balances?.usdcBalance} currencyIconSrc={usdcIcon.src}/>
+                <EntryField width={475} height={51} currencyName={'USDC'} balance={balances?.usdcBalance} currencyIconSrc={usdcIcon.src} setInput={setDespositInput}/>
             </DepositWrapper>
             <ConvertButtonWrapper>
-                <CTAButton innerText={'Deposit'} onClick={() => null}/>
+                <CTAButton innerText={'Deposit'} onClick={() => solendOption?.deposit(despositInput)}/>
             </ConvertButtonWrapper>
         </Wrapper>
     )

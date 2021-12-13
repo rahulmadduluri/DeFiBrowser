@@ -6,11 +6,14 @@ const CTABtnBg = styled(motion.div)`
     width: 180px;
     border-radius: 8px;
     background: ${props => props.theme.goldGradient};
+
+
     :hover {
         background: ${props => props.theme.goldGradientLight};
         cursor: pointer;
     }
-`
+
+`;
 
 const CTABtnInner = styled.button`
     height: 34px;
@@ -40,6 +43,7 @@ const CTABtnInner = styled.button`
 type CTAButtonProps = {
     onClick: (e: any) => void;
     innerText?: string;
+    loading?: boolean;
 };
 
 const CTAButton = ({onClick, innerText}: CTAButtonProps) => {

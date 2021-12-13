@@ -89,7 +89,7 @@ type OnboardingStepTwoProps = {
 const OnboardingStepThree = ({completeStep}: OnboardingStepTwoProps) => {
 
     const [solInput, setSolInput] = useState<number>();
-    const { balances } = useWalletBalances();
+    const { balances, refreshBalances } = useWalletBalances();
     const [usdcTarget, setUsdcTarget] = useState<number | null>();
     const { connection } = useConnection();
     const wallet = useWallet();
@@ -119,6 +119,26 @@ const OnboardingStepThree = ({completeStep}: OnboardingStepTwoProps) => {
         if (solInput && wallet && connection) {
             swapSolToUSDC(connection, wallet, solInput, (success) => {
                 if (success){
+                    if (refreshBalances) {
+                        // We expect usdc balance to change, poll until it does
+                        const priorUSDCBalance = balances.usdcBalance;
+                        const pollTimeSeconds = 60;
+                        const pollIntervalSeconds = 1;
+                        const pollIterations = pollTimeSeconds / pollIntervalSeconds;
+                        var currIteration = 0;
+                        var pollBalanceHandle: any = null;
+                        const pollBalance = async function(){
+                            const { usdcBalance } = await refreshBalances();
+                            if (usdcBalance !== priorUSDCBalance && pollBalanceHandle){
+                                clearInterval(pollBalanceHandle);
+                            }
+                            currIteration += 1;
+                            if (currIteration >= pollIterations) {
+                                clearInterval(pollBalanceHandle);
+                            }
+                        }
+                        pollBalanceHandle = setInterval(pollBalance, pollIntervalSeconds * 1000);
+                    }
                     completeStep();
                 } else {
                     alert("Something went wrong!");
