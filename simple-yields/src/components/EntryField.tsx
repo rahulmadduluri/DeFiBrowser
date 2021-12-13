@@ -77,7 +77,7 @@ const EntryBalanceRow = styled.div`
     font-family: Inter;
     font-style: normal;
     font-weight: bold;
-    font-size: 9px;
+    font-size: 10px;
     line-height: 11px;
     color: #B2B2B2;
     white-space: nowrap;

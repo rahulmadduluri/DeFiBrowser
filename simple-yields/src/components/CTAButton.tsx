@@ -38,7 +38,7 @@ const CTABtnInner = styled.button`
 
 
 type CTAButtonProps = {
-    onClick: () => void;
+    onClick: (e: any) => void;
     innerText?: string;
 };
 
