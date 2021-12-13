@@ -130,7 +130,12 @@ export const parseObligation = (
     dataFlat,
   } = ObligationLayout.decode(buffer) as ProtoObligation;
 
-  if (lastUpdate.slot.isZero()) {
+  // NOTE: modified
+  // if (lastUpdate.slot.isZero()) {
+  //   return null;
+  // }
+  const slot = new BN(lastUpdate.slot);
+  if (slot.isZero()) {
     return null;
   }
 
