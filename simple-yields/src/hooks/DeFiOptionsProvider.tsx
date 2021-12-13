@@ -62,7 +62,6 @@ export const DeFiOptionsProvider: FC<{}> = ({ children }) => {
           };
 
           // fetch solend APY
-          // devnet usdc reserve
           const usdcPubKeyRaw = process.env.NODE_ENV === "development" ? "FNNkz4RCQezSSS71rW2tvqZH1LCkTzaiG7Nd1LeA5x5y" : "BgxfHJDzm44T7XG68MYKx7YisTjZu73tVovyZSjJMpmw";
           const usdcPubKey = new PublicKey(usdcPubKeyRaw);
           const solendUSDCAccount = await connection.getAccountInfo(usdcPubKey);

@@ -35,7 +35,7 @@ const Home = () => {
         Header: '', // Deposit Action Button,
         accessor: 'deposit',
         Cell: (props: any) => <button onClick={() => { 
-          props.cell.row.original.deposit(0.001);
+          props.cell.row.original.deposit(0.01);
         } }>Deposit</button>,
       }
     ],

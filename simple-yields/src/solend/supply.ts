@@ -29,7 +29,7 @@ import { parseObligation } from './state/obligation';
 export async function fetchSupply(
   connection: Connection,
   publicKey: PublicKey,
-): Promise<BN> {
+): Promise<number> {
   // fetch solend existing deposit
   const solendInfo = getConfig(process.env.NODE_ENV === "development" ? "devnet" : "production");
   const lendingMarket = find(solendInfo.markets, {
@@ -37,7 +37,8 @@ export async function fetchSupply(
   });
   if (!lendingMarket) {
       throw new Error('Could not find main lending market');
-  }            
+  }
+
   const seed = lendingMarket!.address.slice(0, 32);
   const obligationAddress = await PublicKey.createWithSeed(
       publicKey,
@@ -47,17 +48,17 @@ export async function fetchSupply(
   const obligationAccountInfo = await connection.getAccountInfo(
       obligationAddress,
   );
+
   if (obligationAccountInfo) {
       const obligation = parseObligation(publicKey, obligationAccountInfo);
-      if (obligation) {
-        console.log("1");
-        console.log(obligation.info.depositedValue);
-        return new BN(obligation.info.depositedValue);
+      if (obligation && obligation.info.deposits.length > 0) {
+        const depositedAmountExtraDecimals: BN = new BN(obligation.info.deposits[0].depositedAmount);
+        return depositedAmountExtraDecimals.toNumber() / 1000000;
     }
   }
 
   // if could not find actual obligation amount
-  return new BN(0);
+  return 0;
 }
 
 export async function supply(
@@ -70,7 +71,6 @@ export async function supply(
     const amountBase = toBaseUnit(amount, symbol);
   
     const solendInfo = getConfig(process.env.NODE_ENV === "development" ? "devnet" : "production");
-    console.log(solendInfo.programID);
     const solendInfoProgramAddress = new PublicKey(solendInfo.programID);
 
     const lendingMarket = find(solendInfo.markets, {
@@ -107,6 +107,7 @@ export async function supply(
   
     const refreshReserveIx = refreshReserveInstruction(
       new PublicKey(reserve.address),
+      solendInfoProgramAddress,
       new PublicKey(oracleInfo.priceAddress),
       new PublicKey(oracleInfo.switchboardFeedAddress),
     );
@@ -135,7 +136,7 @@ export async function supply(
       ixs.push(createUserCollateralAccountIx);
     }
 
-  
+
     const userTokenAccountAddress = await Token.getAssociatedTokenAddress(
       ASSOCIATED_TOKEN_PROGRAM_ID,
       TOKEN_PROGRAM_ID,
@@ -204,7 +205,6 @@ export async function supply(
         solendInfoProgramAddress,
       );
     ixs.push(depositReserveLiquidityAndObligationCollateralIx);
-
   
     const tx = new Transaction().add(...ixs, ...cleanupIxs);
     const { blockhash } = await connection.getRecentBlockhash();
@@ -212,9 +212,7 @@ export async function supply(
     tx.feePayer = publicKey;
     let signature: TransactionSignature = '';
   
-    console.log("AH");
     signature = await sendTransaction(tx, connection);
-    console.log("MH");
     console.log(`submitted tx ${signature}`);
     await connection.confirmTransaction(signature);
     console.log(`confirmed tx ${signature}`);
