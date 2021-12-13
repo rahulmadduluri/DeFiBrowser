@@ -8,6 +8,7 @@ import OnboardingStepOne from "../components/OnboardingPages/OnboardingStepOne";
 import OnboardingStepTwo from "../components/OnboardingPages/OnboardingStepTwo";
 import OnboardingStepThree from "../components/OnboardingPages/OnboardingStepThree";
 import favicon from '../public/favicon.ico';
+import OnboardingStepFour from "../components/OnboardingPages/OnboardingStepFour";
 
 
 const OnboardingBody = styled.div`
@@ -79,6 +80,7 @@ const Onboarding = ({solPrice}: OnboardingProps) => {
                                 {index === 0 ? <OnboardingStepOne completeStep={() => setCurrentStep(1)}/> : null}
                                 {index === 1 ? <OnboardingStepTwo solPrice={solPrice} completeStep={() => setCurrentStep(2)}/> : null}
                                 {index === 2 ? <OnboardingStepThree completeStep={() => setCurrentStep(3)}/> : null}
+                                {index === 3 ? <OnboardingStepFour/> : null}
                             </Slab>
                         )
                     })}
